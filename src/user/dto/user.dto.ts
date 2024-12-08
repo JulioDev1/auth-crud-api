@@ -1,6 +1,6 @@
 import { IsEnum, IsString } from 'class-validator';
 
-enum TypeUser {
+export enum TypeUser {
   TEACHER,
   STUDENT,
 }

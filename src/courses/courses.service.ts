@@ -1,8 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { TypeUser } from 'src/user/dto/user.dto';
 import { UserService } from 'src/user/user.service';
 import { Repository } from 'typeorm';
-import { CourseDto } from './dto/course.dto';
 import { Course } from './entities/courses.entity';
 import { ICourseService } from './interfaces/courses.interface';
 
@@ -12,7 +12,22 @@ export class CoursesService implements ICourseService {
     @InjectRepository(Course) private courseRepository: Repository<Course>,
     private userService: UserService,
   ) {}
-  async CreateCourseTeacher(course: CourseDto): Promise<Course> {
-    throw new Error();
+  async CreateCourseTeacher(name: string, email: string): Promise<Course> {
+    const user = await this.userService.findUserById(email);
+    console.log(user);
+
+    if (user.typeUser != TypeUser.TEACHER) {
+      throw new UnauthorizedException('Only teachers can create courses');
+    }
+
+    if (email == null) {
+      throw new UnauthorizedException('email not passed');
+    }
+
+    const createCourse = await this.courseRepository.create({
+      name: name,
+    });
+
+    return createCourse;
   }
 }
