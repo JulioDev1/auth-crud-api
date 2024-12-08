@@ -3,6 +3,8 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
+import { CoursesModule } from './courses/courses.module';
+import { TeachersModule } from './teachers/teachers.module';
 
 @Module({
   imports: [
@@ -16,11 +18,13 @@ import { UserModule } from './user/user.module';
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
       entities: [`${__dirname}/**/*.entity{.ts,*.js}`],
-      migrations: [`${__dirname}/migration/.ts,*.js`],
+      migrations: [`${__dirname}/migration/*{.ts,.js}`],
       migrationsRun: true,
     }),
     UserModule,
     AuthModule,
+    CoursesModule,
+    TeachersModule,
   ],
 })
 export class AppModule {}
