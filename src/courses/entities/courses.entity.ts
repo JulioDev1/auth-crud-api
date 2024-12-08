@@ -17,7 +17,7 @@ export class Course {
 
   @ManyToMany(() => User, (user) => user.courses)
   @JoinTable({
-    name: 'users_courses', // Nome da tabela de junção
+    name: 'users_courses',
     joinColumn: {
       name: 'courseId',
       referencedColumnName: 'id',
