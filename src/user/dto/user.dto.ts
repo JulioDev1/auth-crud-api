@@ -1,4 +1,9 @@
-import { IsString } from 'class-validator';
+import { IsEnum, IsString } from 'class-validator';
+
+enum TypeUser {
+  TEACHER,
+  STUDENT,
+}
 
 export class UserDto {
   @IsString()
@@ -9,4 +14,7 @@ export class UserDto {
 
   @IsString()
   password: string;
+
+  @IsEnum(TypeUser)
+  typeUser: TypeUser;
 }
