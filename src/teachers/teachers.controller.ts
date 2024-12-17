@@ -1,13 +1,33 @@
-import { Body, Controller, Post } from '@nestjs/common';
-import { CreateTeacherDto } from './dto/create-teacher.dto';
+import {
+  Body,
+  Controller,
+  Put,
+  Query,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
+import { AuthGuard } from '../auth/auth.guardian';
 import { TeachersService } from './teachers.service';
 
-@Controller('teachers')
+@Controller('/teachers')
 export class TeachersController {
   constructor(private readonly teachersService: TeachersService) {}
 
-  @Post()
-  create(@Body() createTeacherDto: CreateTeacherDto) {
-    console.log('ant-breack');
+  @Put('/update-course')
+  @UseGuards(AuthGuard)
+  async createCourseName(
+    @Body() name: string,
+    @Query('id') id: number,
+    @Request() req,
+  ) {
+    try {
+      return await this.teachersService.updateCourseProf(
+        name,
+        req.user.email,
+        id,
+      );
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
