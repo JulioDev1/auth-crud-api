@@ -13,10 +13,10 @@ export class CoursesService implements ICourseService {
     private userService: UserService,
   ) {}
   async CreateCourseTeacher(name: string, email: string): Promise<Course> {
-    const user = await this.userService.findUserById(email);
-    console.log(user);
+    const userFinded = await this.userService.findUserById(email);
+    console.log('here' + userFinded.email);
 
-    if (user.typeUser != TypeUser.TEACHER) {
+    if (userFinded.typeUser != TypeUser.TEACHER) {
       throw new UnauthorizedException('Only teachers can create courses');
     }
 
@@ -26,8 +26,9 @@ export class CoursesService implements ICourseService {
 
     const createCourse = await this.courseRepository.create({
       name: name,
+      user: [userFinded],
     });
-
+    console.log(createCourse.name);
     return createCourse;
   }
 }

@@ -3,8 +3,10 @@ import {
   Entity,
   JoinTable,
   ManyToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Teacher } from '../../teachers/entities/teacher.entity';
 import { User } from '../../user/entities/user.entity';
 
 @Entity('courses')
@@ -28,4 +30,7 @@ export class Course {
     },
   })
   user: User[];
+
+  @ManyToOne(() => Teacher, (teacher) => teacher.courses)
+  teacher: Teacher;
 }

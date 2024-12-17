@@ -1,4 +1,4 @@
-import { Controller, Post, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '../auth/auth.guardian';
 import { CoursesService } from './courses.service';
 import { CourseDto } from './dto/course.dto';
@@ -8,7 +8,10 @@ export class CoursesController {
   constructor(private readonly coursesService: CoursesService) {}
   @UseGuards(AuthGuard)
   @Post('/create-course')
-  async CreateCourseTeacher(name: string, @Request() req): Promise<CourseDto> {
+  async CreateCourseTeacher(
+    @Body() name: string,
+    @Request() req,
+  ): Promise<CourseDto> {
     const courseCreate = await this.coursesService.CreateCourseTeacher(
       name,
       req.user.email,
