@@ -16,13 +16,13 @@ export class TeachersController {
   @Put('/update-course')
   @UseGuards(AuthGuard)
   async createCourseName(
-    @Body() name: string,
+    @Body('course') course: string,
     @Query('id') id: number,
     @Request() req,
   ) {
     try {
       return await this.teachersService.updateCourseProf(
-        name,
+        course,
         req.user.email,
         id,
       );

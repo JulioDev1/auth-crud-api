@@ -21,7 +21,7 @@ export class TeachersService {
       console.log(err);
     }
   }
-  async updateCourseProf(name: string, email: string, id: number) {
+  async updateCourseProf(course: string, email: string, id: number) {
     try {
       const teacher = await this.teacherRepository.findOne({
         where: {
@@ -29,14 +29,15 @@ export class TeachersService {
         },
         relations: ['user'],
       });
-      console.log(teacher);
+
       if (!teacher) {
         throw new Error('teacher not found');
       }
 
-      teacher.course = name;
+      teacher.course = course;
       const updateCourse = await this.teacherRepository.save(teacher);
 
+      console.log(updateCourse.course);
       return updateCourse;
     } catch (err) {
       console.log(err);

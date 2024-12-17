@@ -13,7 +13,7 @@ import { User } from '../../user/entities/user.entity';
 export class Teacher {
   @PrimaryGeneratedColumn()
   id: number;
-  @Column({ nullable: true })
+  @Column({ type: 'varchar', nullable: true })
   course: string;
   @OneToOne(() => User)
   @JoinColumn({ name: 'userId' })
